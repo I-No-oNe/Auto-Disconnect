@@ -1,0 +1,81 @@
+div #background {
+    size: 100%
+    background-color: black
+    opacity: 0.0
+}
+
+div #main {
+    size: 180 150
+    background-color: black
+    opacity: 0.5
+    border-radius: 5
+    shadow-distance: 5
+    center: both
+    border-radius: 3
+    shadow-distance: 3
+    shadow-color: aqua
+
+    div #title {
+        size: 100% 10
+        inner-text: "Auto Disconnect"
+        text-scale: 1.2
+        text-shadow: true
+        text-color: aqua
+        text-align: center
+        background-color: #00000000
+        margin-top: 7
+    }
+
+    div #config {
+        size: 80% 90%
+        margin-top: 10%
+        child-align: grid
+        grid-columns: 2
+        opacity: 0
+        margin: 10%
+        margin-top: 12%
+
+        radio -auto-disconnect:config.properties:enable { margin: 3; }
+        div { inner-text: "Enabled"; height: 10; margin: 3; }
+
+        checkbox -auto-disconnect:config.properties:checkAnchors { margin: 3; }
+        div { inner-text: "Check Anchors"; height: 10; margin: 3; }
+
+        checkbox -auto-disconnect:config.properties:checkCrystals { margin: 3; }
+        div { inner-text: "Check Crystals"; height: 10; margin: 3; }
+
+        checkbox -auto-disconnect:config.properties:checkPlayerHealth { margin: 3; }
+        div { inner-text: "Check Player Health"; height: 10; margin: 3; }
+
+        div {}
+        div {
+            margin-top: 10
+        }
+
+        div { inner-text: "Range"; }
+        slider -auto-disconnect:config.properties:range {
+            min: 1
+            max: 20
+            val: 5
+            width: 75%
+            decimal-places: 0
+        }
+
+        div { inner-text: "Player Health Value"; }
+        slider -auto-disconnect:config.properties:selfPlayerHealth {
+            min: 0
+            max: 19
+            val: 2
+            width: 75%
+            decimal-places: 0
+        }
+
+        checkbox -auto-disconnect:config.properties:checkNewPlayers { margin: 3; }
+        div { inner-text: "Check For New Players"; height: 10; margin: 3; }
+
+        div {}
+        div {
+            margin-top: 20
+        }
+    }
+}

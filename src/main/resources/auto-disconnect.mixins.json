@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "net.i_no_am.auto_disconnect.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "MixinClientPlayNetworkHandler",
+    "MixinMinecraftClient"
+    ]
+}
