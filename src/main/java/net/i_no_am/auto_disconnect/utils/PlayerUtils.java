@@ -4,7 +4,6 @@ import net.i_no_am.auto_disconnect.client.Global;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -21,7 +20,7 @@ import java.util.stream.IntStream;
 
 public class PlayerUtils implements Global {
 
-/* Ported from https://github.com/clickcrystals-development/ClickCrystals/blob/main/src/main/java/io/github/itzispyder/clickcrystals/util/minecraft/PlayerUtils.java */
+/*Ported from https://github.com/clickcrystals-development/ClickCrystals/blob/main/src/main/java/io/github/itzispyder/clickcrystals/util/minecraft/PlayerUtils.java */
 
     public static boolean invalid() {
         return mc.player == null;
@@ -70,12 +69,6 @@ public class PlayerUtils implements Global {
         if (invalid()) return null;
         return getNearestEntity(getWorld(), player(), player().getPos(), range, filter);
     }
-
-    public static PlayerEntity getNearestPlayer(double range, Predicate<Entity> filter) {
-        if (invalid()) return null;
-        return (PlayerEntity) getNearestEntity(getWorld(), player(), player().getPos(), range, entity -> entity instanceof PlayerEntity && filter.test(entity));
-    }
-
 
     public static BlockPos getNearestBlock(double range, Predicate<BlockState> filter) {
         if (invalid()) {

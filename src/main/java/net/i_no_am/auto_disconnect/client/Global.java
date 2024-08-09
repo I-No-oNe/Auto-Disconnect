@@ -1,5 +1,6 @@
 package net.i_no_am.auto_disconnect.client;
 
+import net.i_no_am.auto_disconnect.utils.Utils;
 import net.minecraft.client.MinecraftClient;
 
 public interface Global {
@@ -7,6 +8,6 @@ public interface Global {
     String PREFIX = "§bAuto-Disconnect§r ";
     String modId = "auto-disconnect";
     String[] screens = {
-            "assets/"+ modId +"/improperui/screen.ui"
+            Utils.scriptName("screen")
     };
 }

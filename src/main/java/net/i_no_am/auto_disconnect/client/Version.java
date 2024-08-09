@@ -1,65 +1,66 @@
 package net.i_no_am.auto_disconnect.client;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
+import net.i_no_am.auto_disconnect.utils.NetworkUtils;
+import net.i_no_am.auto_disconnect.utils.Utils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Version implements Global {
 
-    public static boolean isRightVersion = true;
-    public static boolean isVersionChecked = false;
+    public static boolean checked = false;
+    private static final String REPO_URL = "https://api.github.com/repos/I-No-oNe/Auto-Disconnect/releases/latest";
 
-    public static String getLatestVersion() throws Exception {
-        URL url = new URL("https://api.github.com/repos/I-No-oNe/Auto-Disconnect/releases/latest");
-        HttpURLConnection connect = (HttpURLConnection) url.openConnection();
-
-        connect.setRequestMethod("GET");
-
-        BufferedReader r = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String line;
-
-        while ((line = r.readLine()) != null) {
-            response.append(line);
-        }
-
-        r.close();
-
-        JsonObject jsonResponse = JsonParser.parseString(response.toString()).getAsJsonObject();
-        return jsonResponse.get("tag_name").getAsString();
-    }
-
-    public static String getModVersion() {
-        ModContainer ad = FabricLoader.getInstance().getModContainer("auto_disconnect")
-                .orElseThrow(() -> new IllegalArgumentException("Auto-Disconnect has not been loaded"));
-        String ver = ad.getMetadata().getVersion().getFriendlyString();
-        String[] parts = ver.split("-");
-        for (String part : parts) {
-            if (part.matches("\\d+\\.\\d+")) {
-                return part;
-            }
-        }
-        return "Unknown";
-    }
-
-    public static boolean compareVersions() {
-        if (!isVersionChecked) {
+    public static void updateChecker() {
+        if (!checked) {
             try {
-                String latestVersion = getLatestVersion();
-                String modVersion = getModVersion();
-                isRightVersion = latestVersion.equals(modVersion);
+                String latestVersion = getGithubVersion();
+                if (latestVersion != null && isUpdateAvailable(latestVersion)) {
+                    NetworkUtils.sendUpdate();
+                }
+                checked = true;
             } catch (Exception e) {
                 e.printStackTrace();
-                isRightVersion = false;
             }
-            isVersionChecked = true;
         }
-        return isRightVersion;
+    }
+
+    private static String getGithubVersion() throws Exception {
+        URL url = new URL(REPO_URL);
+        String jsonString = getString(url);
+        String versionTag = "\"tag_name\":\"";
+        int startIndex = jsonString.indexOf(versionTag);
+        if (startIndex != -1) {
+            int endIndex = jsonString.indexOf('"', startIndex + versionTag.length());
+            if (endIndex != -1) {
+                return jsonString.substring(startIndex + versionTag.length(), endIndex);
+            }
+        }
+        return null;
+    }
+
+    private static @NotNull String getString(URL url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Accept", "application/json");
+        if (conn.getResponseCode() != 200) {
+            throw new RuntimeException("Failed: HTTP error code: " + conn.getResponseCode());
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        while ((output = br.readLine()) != null) {
+            sb.append(output);
+        }
+        conn.disconnect();
+        return sb.toString();
+    }
+
+    public static boolean isUpdateAvailable(String latestVersion) {
+        return !Utils.getModVersion().equals(latestVersion);
     }
 }

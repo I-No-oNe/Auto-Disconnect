@@ -7,7 +7,7 @@ How to use?
 # Set the conditions for the auto disconnect.
 # Turn on/off the settings as you want.
 ```
---------------------
+-----------------------------------
 ## Showcase:
 ### GUI
 ![GUI showcase](assets/gui.png)
