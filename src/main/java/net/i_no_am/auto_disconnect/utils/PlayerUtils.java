@@ -4,6 +4,7 @@ import net.i_no_am.auto_disconnect.client.Global;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -32,6 +33,11 @@ public class PlayerUtils implements Global {
 
     public static ClientPlayerEntity player() {
         return mc.player;
+    }
+
+    public static void sendText(Text text) {
+        if (text == null) return;
+        player().sendMessage(Text.of(text), false);
     }
 
     public static World getWorld() {

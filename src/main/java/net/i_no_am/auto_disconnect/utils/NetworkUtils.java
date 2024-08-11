@@ -19,12 +19,11 @@ public class NetworkUtils implements Global {
         Config.autoDisable.setVal("enable",false);
         }
     }
-    /*A whole method to send the update message*/
     public static void sendUpdate(){
         ChatUtils.sendMessage(PREFIX + "Download the new version of Auto Disconnect from Modrinth!");
-        Text literal = Text.literal("§a https://modrinth.com/mod/auto-disconnect");
+        Text literal = Text.literal("§b https://modrinth.com/mod/auto-disconnect");
         ClickEvent event = new ClickEvent(ClickEvent.Action.OPEN_URL, "https://modrinth.com/mod/auto-disconnect");
         MutableText text = literal.copy();
-        Utils.sendText(text.fillStyle(text.getStyle().withClickEvent(event)));
+        PlayerUtils.sendText(text.fillStyle(text.getStyle().withClickEvent(event)));
     }
 }

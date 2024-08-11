@@ -11,11 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientPlayNetworkHandler.class)
 public class MixinClientPlayNetworkHandler {
 
-    /*Ported from https://github.com/I-No-oNe/View-Model/blob/main/src/main/java/net/i_no_am/viewmodel/mixin/MixinClientPlayNetworkHandler.java*/
-
     @Inject(method = "getConnection", at = @At("RETURN"))
-    private void onWorldLoadMixin(CallbackInfoReturnable<ClientConnection> cir) {
+    private void onWorldLoad(CallbackInfoReturnable<ClientConnection> cir) {
         Version.updateChecker();
-        Version.checked = true;
     }
 }
