@@ -1,10 +1,9 @@
 package net.i_no_am.auto_disconnect.utils;
 
-import net.i_no_am.auto_disconnect.client.Global;
+import net.i_no_am.auto_disconnect.Global;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -21,23 +20,14 @@ import java.util.stream.IntStream;
 
 public class PlayerUtils implements Global {
 
-/*Ported from https://github.com/clickcrystals-development/ClickCrystals/blob/main/src/main/java/io/github/itzispyder/clickcrystals/util/minecraft/PlayerUtils.java */
+    /*Forked from https://github.com/clickcrystals-development/ClickCrystals/blob/main/src/main/java/io/github/itzispyder/clickcrystals/util/minecraft/PlayerUtils.java */
 
     public static boolean invalid() {
         return mc.player == null;
     }
 
-    public static boolean valid() {
-        return !invalid();
-    }
-
     public static ClientPlayerEntity player() {
         return mc.player;
-    }
-
-    public static void sendText(Text text) {
-        if (text == null) return;
-        player().sendMessage(Text.of(text), false);
     }
 
     public static World getWorld() {
@@ -100,7 +90,7 @@ public class PlayerUtils implements Global {
     }
 
     public static List<Integer> getRangeList(int maxRange) {
-        return IntStream.rangeClosed(1,maxRange)
+        return IntStream.rangeClosed(1, maxRange)
                 .boxed()
                 .collect(Collectors.toList());
     }

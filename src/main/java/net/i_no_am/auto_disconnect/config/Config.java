@@ -2,7 +2,7 @@ package net.i_no_am.auto_disconnect.config;
 
 import io.github.itzispyder.improperui.ImproperUIAPI;
 import io.github.itzispyder.improperui.config.ConfigReader;
-import net.i_no_am.auto_disconnect.client.Global;
+import net.i_no_am.auto_disconnect.Global;
 import net.i_no_am.auto_disconnect.config.settings.ConfigSettings;
 
 public class Config implements Global {

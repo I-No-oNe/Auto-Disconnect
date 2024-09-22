@@ -1,6 +1,6 @@
 package net.i_no_am.auto_disconnect.impl;
 
-import net.i_no_am.auto_disconnect.client.Global;
+import net.i_no_am.auto_disconnect.Global;
 import net.i_no_am.auto_disconnect.config.Config;
 import net.i_no_am.auto_disconnect.utils.NetworkUtils;
 import net.i_no_am.auto_disconnect.utils.PlayerUtils;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class AutoDis implements Global {
 
-    public static void impl() {
+    public AutoDis() {
         if (PlayerUtils.invalid()) return;
         List<Integer> rangeList = PlayerUtils.getRangeList(Config.range.getVal());
             /*A check if the mod is actually enabled*/
@@ -62,8 +62,8 @@ public class AutoDis implements Global {
             }
             /*Check New Players -> Check For New Players In range, Still in progress*/
             if (Config.checkNewPlayers.getVal()) {
-                for (PlayerEntity player : mc.world.getPlayers()) {
-                    if (player != mc.player && mc.player.squaredDistanceTo(player) <= mc.options.getViewDistance().getValue() * 16 * mc.options.getViewDistance().getValue() * 16) {
+                for (PlayerEntity player : PlayerUtils.getWorld().getPlayers()) {
+                    if (PlayerUtils.player().squaredDistanceTo(player) <= mc.options.getViewDistance().getValue() * 16 * mc.options.getViewDistance().getValue() * 16) {
                         NetworkUtils.disconnectPlayer("New player detected within render distance");
                         return;
                     }
