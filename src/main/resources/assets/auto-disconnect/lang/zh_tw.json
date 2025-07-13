@@ -1,0 +1,8 @@
+{
+  "auto-disconnect.i_no_am.category": "自動斷線",
+  "auto-disconnect.i_no_am.menu": "開啟選單",
+  "auto-disconnect.midnightconfig.title": "自動斷線",
+  "auto-disconnect.midnightconfig.category.GENERAL": "一般設定",
+  "auto-disconnect.midnightconfig.category.PLAYERS": "玩家條件",
+  "auto-disconnect.midnightconfig.category.PVP": "PVP 條件"
+}
