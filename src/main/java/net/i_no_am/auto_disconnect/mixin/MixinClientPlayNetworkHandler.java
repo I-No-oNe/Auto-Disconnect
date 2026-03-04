@@ -31,12 +31,12 @@ public abstract class MixinClientPlayNetworkHandler implements Global {
         for (PlayerListS2CPacket.Entry entry : packet.getEntries()) {
             GameProfile profile = entry.profile();
             if (profile == null) continue;
-            UUID uuid = profile.getId();
+            UUID uuid = profile.id();
 
             // Skip self
             if (mc.player != null && uuid.equals(mc.player.getUuid())) continue;
 
-            String playerName = profile.getName();
+            String playerName = profile.name();
 
             if (Config.checkNewPlayers && !knownPlayerIds.contains(uuid)) {
                 knownPlayerIds.add(uuid);
@@ -63,11 +63,11 @@ public abstract class MixinClientPlayNetworkHandler implements Global {
 
         if (Utils.isInvalid() || !Config.enable || !Config.checkPlayersInRenderDistance) return;
 
-        Vec3d selfPos = mc.player.getPos();
+        Vec3d selfPos = mc.player.getEntityPos();
         double rangeSquared = Config.range * Config.range;
 
         var player = Utils.findEntity(EntityType.PLAYER, Config.range);
-        double distSq = player != mc.player ? player.getPos().squaredDistanceTo(selfPos) : Double.MAX_VALUE;
+        double distSq = player != mc.player ? player.getEntityPos().squaredDistanceTo(selfPos) : Double.MAX_VALUE;
 
         if (distSq <= rangeSquared) {
             Utils.disconnect("Player in render range");

@@ -43,7 +43,7 @@ public class Utils implements Global {
      * Checks if a respawn anchor at the given block position has the specified number of charges.
      */
     public static boolean isAnchorLoaded(int charges, BlockPos pos) {
-        var state = mc.player.getWorld().getBlockState(pos);
+        var state = mc.player.getEntityWorld().getBlockState(pos);
         if (state.getBlock().equals(Blocks.RESPAWN_ANCHOR)) return state.get(RespawnAnchorBlock.CHARGES) == charges;
         return isAnchorLoaded(charges, pos);
     }
