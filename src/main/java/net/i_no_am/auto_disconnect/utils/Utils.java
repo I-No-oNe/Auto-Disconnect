@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RespawnAnchorBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.core.Vec3i;
 
 import java.util.List;
 
@@ -94,7 +93,7 @@ public class Utils implements Global {
         for (BlockPos pos : getBlocksInRange(range)) {
             if (mc.level.getBlockState(pos).getBlock() == block) return pos;
         }
-        return new BlockPos(Vec3i.ZERO);
+        return new BlockPos(0, 0, 0);
     }
 
     /**
