@@ -1,32 +1,32 @@
 {
-	"schemaVersion": 1,
-	"id": "auto-disconnect",
-	"version": "${version}",
-	"name": "Auto-Disconnect",
-	"description": "A simple mod that automatically disconnect you when a certain condition is met",
-	"authors": [
-		"I-No-oNe"
-	],
-	"contact": {
-		"homepage": "https://github.com/I-No-oNe/",
-		"sources": "https://github.com/I-No-oNe/Auto-Disconnect"
-	},
-	"license": "MIT",
-	"icon": "assets/auto-disconnect/icon.png",
-	"environment": "client",
-	"entrypoints": {
-		"main": [
-			"net.i_no_am.auto_disconnect.AutoDisconnect"
-		]
-	},
-	"mixins": [
-		"auto-disconnect.mixins.json"
-	],
-	"depends": {
-		"java": ">=21",
-		"fabric-api": "*",
-		"fabricloader": ">=${loader_version}",
-		"minecraft": ">=${minecraft_version}",
-		"midnightlib": ">=${midnightlib_version}"
-	}
+  "schemaVersion": 1,
+  "id": "auto-disconnect",
+  "version": "${version}",
+  "name": "Auto-Disconnect",
+  "description": "A simple mod that automatically disconnect you when a certain condition is met",
+  "authors": [
+    "I-No-oNe"
+  ],
+  "contact": {
+    "homepage": "https://github.com/I-No-oNe/",
+    "sources": "https://github.com/I-No-oNe/Auto-Disconnect"
+  },
+  "license": "MIT",
+  "icon": "assets/auto-disconnect/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "net.i_no_am.auto_disconnect.AutoDisconnect"
+    ]
+  },
+  "mixins": [
+    "auto-disconnect.mixins.json"
+  ],
+  "depends": {
+    "java": "\u003e\u003d21",
+    "fabric-api": "*",
+    "fabricloader": "\u003e\u003d0.19.2",
+    "minecraft": "~26.1",
+    "midnightlib": "\u003e\u003d${midnightlib_version}"
+  }
 }

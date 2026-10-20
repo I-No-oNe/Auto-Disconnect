@@ -4,11 +4,11 @@ import com.mojang.authlib.GameProfile;
 import net.i_no_am.auto_disconnect.Global;
 import net.i_no_am.auto_disconnect.config.Config;
 import net.i_no_am.auto_disconnect.utils.Utils;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.entity.EntityType;
-import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerListS2CPacket;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.network.protocol.game.ClientboundLoginPacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,22 +19,22 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Mixin(ClientPlayNetworkHandler.class)
+@Mixin(ClientPacketListener.class)
 public abstract class MixinClientPlayNetworkHandler implements Global {
 
     @Unique private final Set<UUID> knownPlayerIds = new HashSet<>();
 
-    @Inject(method = "onPlayerList", at = @At("TAIL"))
-    private void onListUpdate(PlayerListS2CPacket packet, CallbackInfo ci) {
+    @Inject(method = "handlePlayerInfoUpdate", at = @At("TAIL"))
+    private void onListUpdate(ClientboundPlayerInfoUpdatePacket packet, CallbackInfo ci) {
         if (!Config.enable) return;
 
-        for (PlayerListS2CPacket.Entry entry : packet.getEntries()) {
+        for (ClientboundPlayerInfoUpdatePacket.Entry entry : packet.entries()) {
             GameProfile profile = entry.profile();
             if (profile == null) continue;
             UUID uuid = profile.id();
 
             // Skip self
-            if (mc.player != null && uuid.equals(mc.player.getUuid())) continue;
+            if (mc.player != null && uuid.equals(mc.player.getUUID())) continue;
 
             String playerName = profile.name();
 
@@ -53,8 +53,8 @@ public abstract class MixinClientPlayNetworkHandler implements Global {
         }
     }
 
-    @Inject(method = "onGameJoin", at = @At("TAIL"))
-    private void onGameJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
+    @Inject(method = "handleLogin", at = @At("TAIL"))
+    private void onGameJoin(ClientboundLoginPacket packet, CallbackInfo ci) {
         knownPlayerIds.clear();
     }
 
@@ -63,11 +63,11 @@ public abstract class MixinClientPlayNetworkHandler implements Global {
 
         if (Utils.isInvalid() || !Config.enable || !Config.checkPlayersInRenderDistance) return;
 
-        Vec3d selfPos = mc.player.getEntityPos();
+        Vec3 selfPos = mc.player.position();
         double rangeSquared = Config.range * Config.range;
 
-        var player = Utils.findEntity(EntityType.PLAYER, Config.range);
-        double distSq = player != mc.player ? player.getEntityPos().squaredDistanceTo(selfPos) : Double.MAX_VALUE;
+        var player = Utils.findEntity(EntityType.PLAYER, (int) Config.range);
+        double distSq = player != mc.player ? player.position().distanceToSqr(selfPos) : Double.MAX_VALUE;
 
         if (distSq <= rangeSquared) {
             Utils.disconnect("Player in render range");

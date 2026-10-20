@@ -5,12 +5,11 @@ import com.google.gson.JsonParser;
 import net.fabricmc.loader.api.FabricLoader;
 import net.i_no_am.auto_disconnect.Global;
 import net.i_no_am.auto_disconnect.config.Config;
-import net.minecraft.client.gui.screen.ConfirmScreen;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Util;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.ConfirmScreen;
+import net.minecraft.network.chat.Component;
 
+import java.awt.Desktop;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -22,8 +21,8 @@ import java.util.Map;
 public class Version implements Global {
 
     private static final Map<String, Double> versionCache = new HashMap<>();
-    @Nullable private final String api;
-    @Nullable private final String download;
+    private final String api;
+    private final String download;
     private static boolean bl = false;
     private final double version;
 
@@ -32,7 +31,7 @@ public class Version implements Global {
      @param download The link to the download page.
      ***/
 
-    private Version(@Nullable String api, @Nullable String download) throws Exception {
+    private Version(String api, String download) throws Exception {
         this.api = api;
         this.download = download;
         this.version = Config.shouldCheck ? getVApi() : 0.0;
@@ -47,17 +46,20 @@ public class Version implements Global {
     }
 
     public void notifyUpdate(boolean printVersions) {
-        if (!bl && mc.currentScreen == null && mc.player != null && !isUpdated() && Config.shouldCheck) {
+        if (!bl && mc.screen == null && mc.player != null && !isUpdated() && Config.shouldCheck) {
             if (printVersions) {
                 log("Versions: \nCurrent Version: " + getSelf() + "\n" + "Online Version: " + getApi());
             }
             mc.setScreen(new ConfirmScreen(confirmed -> {
                 if (confirmed) {
-                    Util.getOperatingSystem().open(URI.create(download));
-                    mc.player.closeScreen();
+                    try {
+                        Desktop.getDesktop().browse(URI.create(download));
+                    } catch (Exception e) {
+                        System.out.println("[Auto-Disconnect] Failed to open download page: " + e.getMessage());
+                    }
                 }
-                mc.player.closeScreen();
-            }, Text.of(Formatting.RED + "You are using an outdated version of Auto Disconnect"), Text.of("Please download the latest version from " + Formatting.GREEN + "Modrinth"), Text.of("Download"), Text.of("Continue playing")));
+                mc.setScreen(null);
+            }, Component.literal(ChatFormatting.RED + "You are using an outdated version of Auto Disconnect"), Component.literal("Please download the latest version from " + ChatFormatting.GREEN + "Modrinth"), Component.literal("Download"), Component.literal("Continue playing")));
             bl = true;
         }
     }

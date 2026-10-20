@@ -3,10 +3,10 @@ package net.i_no_am.auto_disconnect.mixin;
 import net.i_no_am.auto_disconnect.Global;
 import net.i_no_am.auto_disconnect.config.Config;
 import net.i_no_am.auto_disconnect.utils.Utils;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Blocks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.i_no_am.auto_disconnect.utils.Utils.disconnect;
 
-@Mixin(ClientPlayerEntity.class)
+@Mixin(LocalPlayer.class)
 public class MixinClientPlayerEntity implements Global {
 
     @Inject(method = "tick", at = @At("HEAD"))

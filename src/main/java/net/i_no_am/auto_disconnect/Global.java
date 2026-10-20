@@ -1,11 +1,11 @@
 package net.i_no_am.auto_disconnect;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public interface Global {
     boolean isDev = FabricLoader.getInstance().isDevelopmentEnvironment();
-    MinecraftClient mc = MinecraftClient.getInstance();
+    Minecraft mc = Minecraft.getInstance();
     String PREFIX = "Auto Disconnect";
     String modId = "auto-disconnect";
 
