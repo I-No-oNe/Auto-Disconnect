@@ -46,11 +46,11 @@ public class Version implements Global {
     }
 
     public void notifyUpdate(boolean printVersions) {
-        if (!bl && mc.screen == null && mc.player != null && !isUpdated() && Config.shouldCheck) {
+        if (!bl && mc.gui.screen() == null && mc.player != null && !isUpdated() && Config.shouldCheck) {
             if (printVersions) {
                 log("Versions: \nCurrent Version: " + getSelf() + "\n" + "Online Version: " + getApi());
             }
-            mc.setScreen(new ConfirmScreen(confirmed -> {
+            mc.gui.setScreen(new ConfirmScreen(confirmed -> {
                 if (confirmed) {
                     try {
                         Desktop.getDesktop().browse(URI.create(download));
@@ -58,7 +58,7 @@ public class Version implements Global {
                         System.out.println("[Auto-Disconnect] Failed to open download page: " + e.getMessage());
                     }
                 }
-                mc.setScreen(null);
+                mc.gui.setScreen(null);
             }, Component.literal(ChatFormatting.RED + "You are using an outdated version of Auto Disconnect"), Component.literal("Please download the latest version from " + ChatFormatting.GREEN + "Modrinth"), Component.literal("Download"), Component.literal("Continue playing")));
             bl = true;
         }

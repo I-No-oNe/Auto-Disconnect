@@ -24,8 +24,8 @@ public class AutoDisconnect implements ModInitializer, Global {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (BIND.consumeClick() && mc.player != null) {
-                Screen screenConfig = Config.getScreen(mc.screen, modId);
-                mc.setScreen(screenConfig);
+                Screen screenConfig = Config.getScreen(mc.gui.screen(), modId);
+                mc.gui.setScreen(screenConfig);
                 if (screenConfig.shouldCloseOnEsc()) MidnightConfig.write(modId);
             }
             Version.create(API, DOWNLOAD).notifyUpdate(isDev);

@@ -8,6 +8,7 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -66,7 +67,7 @@ public abstract class MixinClientPlayNetworkHandler implements Global {
         Vec3 selfPos = mc.player.position();
         double rangeSquared = Config.range * Config.range;
 
-        var player = Utils.findEntity(EntityType.PLAYER, (int) Config.range);
+        var player = Utils.findEntity(EntityTypes.PLAYER, (int) Config.range);
         double distSq = player != mc.player ? player.position().distanceToSqr(selfPos) : Double.MAX_VALUE;
 
         if (distSq <= rangeSquared) {
